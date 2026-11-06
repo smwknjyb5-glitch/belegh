@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>بلاغات المدينة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{
+  --bg:#eef3f1; --surface:#fff; --ink:#12302a; --muted:#6b8079; --line:#e2ebe7;
+  --brand:#0b5d46; --brand2:#0e7a5a; --accent:#f2b705; --danger:#d64545; --info:#2563eb;
+  --shadow:0 6px 20px rgba(11,60,48,.08);
+}
+[data-theme="dark"]{
+  --bg:#0c1a17; --surface:#14272३; --ink:#e6f1ed; --muted:#8fa89f; --line:#23403a;
+  --shadow:0 6px 20px rgba(0,0,0,.35);
+}
+[data-theme="dark"]{--surface:#14272a}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:110px;transition:background .3s,color .3s}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Header */
+.app-header{background:linear-gradient(140deg,var(--brand),#073d2f);color:#fff;padding:22px 18px 54px;border-radius:0 0 34px 34px;position:relative;overflow:hidden}
+.app-header::before,.app-header::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06)}
+.app-header::before{width:220px;height:220px;top:-90px;left:-60px}
+.app-header::after{width:150px;height:150px;bottom:-70px;right:-30px;background:rgba(242,183,5,.12)}
+.top-row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.app-header h1{font-size:24px;font-weight:800;display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:14px;background:var(--accent);color:#073d2f;display:grid;place-items:center;font-size:20px;transform:rotate(-6deg)}
+.head-tools{display:flex;gap:8px;align-items:center}
+.badge-count{background:rgba(255,255,255,.16);padding:6px 14px;border-radius:40px;font-size:13px;font-weight:700}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font-size:16px;transition:.2s}
+.icon-btn:hover{background:rgba(255,255,255,.28)}
+.subhead{position:relative;z-index:1;margin-top:10px;font-size:14px;opacity:.8}
+
+/* Search + categories */
+.panel{background:var(--surface);margin:-34px 14px 16px;border-radius:24px;box-shadow:var(--shadow);padding:12px 12px 6px;position:sticky;top:8px;z-index:50}
+.search{position:relative;margin-bottom:10px}
+.search input{width:100%;padding:12px 44px 12px 14px;border-radius:16px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px;transition:.2s}
+.search input:focus{border-color:var(--brand2);outline:none}
+.search i{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat-btn{flex:0 0 auto;padding:9px 16px;border-radius:40px;border:2px solid transparent;background:var(--bg);color:var(--muted);font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px;cursor:pointer;transition:.2s;white-space:nowrap}
+.cat-btn.active{background:var(--c,var(--brand));color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.cat-btn:active{transform:scale(.95)}
+
+/* List */
+.container{padding:0 16px;max-width:620px;margin:0 auto}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px;gap:8px;flex-wrap:wrap}
+.section-title h2{font-size:18px;font-weight:800}
+.section-title h2 i{color:var(--brand2);margin-left:8px}
+.pill{font-size:13px;color:var(--muted);background:var(--surface);padding:3px 14px;border-radius:30px;border:1px solid var(--line)}
+.help-btn{background:var(--info);color:#fff;border:none;border-radius:40px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center;transition:.2s}
+.help-btn:hover{filter:brightness(1.1)}
+.list{display:flex;flex-direction:column;gap:16px}
+
+.card{background:var(--surface);border-radius:20px;padding:16px 18px 14px;box-shadow:var(--shadow);position:relative;border-right:7px solid var(--c);overflow:hidden;animation:rise .35s ease both}
+.card::before{content:"";position:absolute;top:0;left:0;width:90px;height:90px;background:radial-gradient(circle at top left,var(--cb),transparent 70%);pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;position:relative}
+.tag{font-size:12px;font-weight:800;padding:4px 12px;border-radius:40px;background:var(--cb);color:var(--c);display:inline-flex;gap:6px;align-items:center}
+.mini{font-size:11px;font-weight:700;padding:3px 10px;border-radius:40px;background:#fef3c7;color:#854d0e}
+.mini.help{background:#dbeafe;color:#1e40af}
+.date{margin-right:auto;font-size:12px;color:var(--muted)}
+.card-title{font-size:18px;font-weight:800;line-height:1.4;margin-bottom:6px}
+.card-desc{font-size:15px;line-height:1.7;color:var(--muted);white-space:pre-line;word-break:break-word;margin-bottom:10px}
+.pic{margin:8px 0 12px;border-radius:16px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.pic img{width:100%;max-height:300px;object-fit:cover;display:block;transition:transform .4s}
+.pic:hover img{transform:scale(1.03)}
+.card-foot{border-top:1px dashed var(--line);padding-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.contact-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:40px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;transition:.2s}
+.contact-btn.call{background:var(--brand2)}
+.contact-btn.wa{background:#25a244}
+.contact-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.acts{margin-right:auto;display:flex;gap:2px}
+.acts button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;width:34px;height:34px;border-radius:50%;transition:.2s}
+.acts .e:hover{color:var(--info);background:rgba(37,99,235,.1)}
+.acts .s:hover{color:var(--brand2);background:rgba(14,122,90,.1)}
+.acts .d:hover{color:var(--danger);background:rgba(214,69,69,.1)}
+.empty{text-align:center;padding:44px 20px;color:var(--muted);background:var(--surface);border-radius:26px;border:2px dashed var(--line)}
+.empty i{font-size:46px;display:block;margin-bottom:12px;opacity:.5}
+
+/* FAB */
+.fab{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:360px;padding:16px;border:none;border-radius:60px;background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;font-size:17px;font-weight:800;display:flex;justify-content:center;gap:12px;align-items:center;cursor:pointer;box-shadow:0 12px 30px rgba(11,93,70,.45);z-index:200;transition:.2s}
+.fab i{color:var(--accent);font-size:20px}
+.fab:active{transform:translateX(-50%) scale(.95)}
+
+/* Modals */
+.overlay{position:fixed;inset:0;background:rgba(5,25,20,.55);backdrop-filter:blur(5px);z-index:500;display:none;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:500px;border-radius:30px 30px 0 0;padding:24px 22px 30px;max-height:92vh;overflow-y:auto;animation:slide .3s ease}
+@keyframes slide{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.sheet-head h3{font-size:21px;font-weight:800}
+.sheet-head button{background:var(--bg);color:var(--ink);border:none;width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.fg label i{margin-left:6px;color:var(--muted)}
+.fg select,.fg input,.fg textarea{width:100%;padding:13px 15px;border:2px solid var(--line);border-radius:16px;font-size:15px;background:var(--bg);color:var(--ink);transition:.2s}
+.fg textarea{resize:vertical;min-height:90px}
+.fg select:focus,.fg input:focus,.fg textarea:focus{border-color:var(--brand2);outline:none;box-shadow:0 0 0 4px rgba(14,122,90,.15)}
+.upload{position:relative}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload .btn-up{display:flex;justify-content:center;gap:10px;padding:14px;border:2px dashed var(--muted);border-radius:16px;color:var(--muted);font-weight:700;background:var(--bg)}
+#prevBox{display:none;position:relative;margin-top:10px;border-radius:16px;overflow:hidden}
+#prevBox img{width:100%;max-height:200px;object-fit:cover;display:block}
+#rmImg{position:absolute;top:8px;left:8px;background:rgba(214,69,69,.92);color:#fff;border:none;border-radius:40px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.submit{width:100%;padding:15px;border:none;border-radius:60px;background:var(--brand);color:#fff;font-size:17px;font-weight:800;cursor:pointer;display:flex;gap:10px;justify-content:center;align-items:center;margin-top:6px}
+.submit:disabled{opacity:.6}
+.submit i{color:var(--accent)}
+.submit.blue{background:var(--info)}
+
+/* Lightbox + toast */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:900;display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#lightbox.open{display:flex}
+#lightbox img{max-width:100%;max-height:90vh;border-radius:14px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:60px;font-size:14px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:480px){.row2{grid-template-columns:1fr}.app-header h1{font-size:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="top-row">
+    <h1><span class="logo"><i class="fas fa-bullhorn"></i></span>بلاغات المدينة</h1>
+    <div class="head-tools">
+      <span class="badge-count" id="totalCount">0</span>
+      <button class="icon-btn" id="themeBtn" title="الوضع الليلي" aria-label="تبديل الوضع"><i class="fas fa-moon"></i></button>
+    </div>
+  </div>
+  <div class="subhead"><i class="fas fa-map-pin"></i> أضف بلاغك وانشر خبرك بين أهل الحي</div>
+</header>
+
+<div class="panel">
+  <div class="search"><i class="fas fa-search"></i><input type="search" id="searchInput" placeholder="ابحث في البلاغات..." /></div>
+  <div class="cats" id="cats"></div>
+</div>
+
+<main class="container">
+  <div class="section-title">
+    <h2><i class="fas fa-thumbtack"></i>آخر البلاغات</h2>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="pill" id="filterLabel">الكل</span>
+      <button class="help-btn" id="helpBtn"><i class="fas fa-hand-holding-heart"></i> طلب إعانة</button>
+    </div>
+  </div>
+  <div class="list" id="list"></div>
+</main>
+
+<button class="fab" id="openBtn"><i class="fas fa-plus-circle"></i>أضف بلاغ جديد</button>
+
+<!-- Add / edit -->
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <div class="sheet-head"><h3 id="modalTitle">بلاغ جديد</h3><button id="closeBtn" aria-label="إغلاق"><i class="fas fa-times"></i></button></div>
+    <form id="form">
+      <div class="fg"><label><i class="fas fa-tags"></i>نوع البلاغ</label>
+        <select id="fCat">
+          <option value="زواج">💍 زواج</option><option value="اعلام">📢 إعلام</option><option value="وفاة">🕊️ وفاة</option>
+          <option value="بيع">🛒 بيع</option><option value="شراء">🛍️ شراء</option><option value="ضياع">🔍 ضياع</option>
+          <option value="اعانة">🤝 إعانة</option>
+        </select></div>
+      <div class="fg"><label><i class="fas fa-heading"></i>العنوان</label><input type="text" id="fTitle" maxlength="80" placeholder="مثال: حفل زفاف عائلة الفلاني" required /></div>
+      <div class="fg"><label><i class="fas fa-align-left"></i>التفاصيل</label><textarea id="fDesc" maxlength="600" placeholder="اكتب تفاصيل البلاغ هنا..." required></textarea></div>
+      <div class="fg"><label><i class="fas fa-image"></i>صورة البلاغ (اختياري)</label>
+        <div class="upload"><div class="btn-up"><i class="fas fa-cloud-upload-alt"></i> اختر صورة من الجهاز</div><input type="file" id="fImg" accept="image/*" /></div>
+        <div id="prevBox"><img id="prevImg" alt="معاينة" /><button type="button" id="rmImg"><i class="fas fa-trash-alt"></i> إزالة الصورة</button></div>
+        <small style="color:var(--muted)">تُضغط الصورة تلقائياً لتوفير المساحة</small></div>
+      <div class="row2">
+        <div class="fg"><label><i class="fas fa-user"></i>اسم الناشر</label><input type="text" id="fName" placeholder="أحمد" required /></div>
+        <div class="fg"><label><i class="fas fa-phone"></i>رقم التواصل</label><input type="tel" id="fPhone" inputmode="tel" placeholder="05xxxxxxxx" required /></div>
+      </div>
+      <button type="submit" class="submit" id="submitBtn"><i class="fas fa-paper-plane"></i><span id="submitTxt">نشر البلاغ</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- Help -->
+<div class="overlay" id="helpOverlay">
+  <div class="sheet">
+    <div class="sheet-head"><h3><i class="fas fa-hand-holding-heart" style="color:var(--info);margin-left:8px"></i>طلب إعانة</h3><button id="closeHelp" aria-label="إغلاق"><i class="fas fa-times"></i></button></div>
+    <form id="helpForm">
+      <div class="fg"><label><i class="fas fa-user"></i>الاسم</label><input type="text" id="hName" required /></div>
+      <div class="fg"><label><i class="fas fa-phone"></i>رقم الجوال</label><input type="tel" id="hPhone" inputmode="tel" required /></div>
+      <div class="fg"><label><i class="fas fa-hand-holding"></i>نوع المساعدة</label>
+        <select id="hType"><option value="مالية">💰 مالية</option><option value="غذائية">🍲 غذائية</option><option value="طبية">🏥 طبية</option><option value="أخرى">📦 أخرى</option></select></div>
+      <div class="fg"><label><i class="fas fa-align-left"></i>وصف الطلب</label><textarea id="hDesc" placeholder="اكتب تفاصيل طلب الإعانة..." required></textarea></div>
+      <button type="submit" class="submit blue"><i class="fas fa-paper-plane"></i>إرسال الطلب</button>
+    </form>
+  </div>
+</div>
+
+<div id="lightbox"><img id="lbImg" alt="" /></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS = {
+  'زواج':{label:'زواج',icon:'fa-ring',c:'#b7791f',bg:'rgba(242,183,5,.18)'},
+  'اعلام':{label:'إعلام',icon:'fa-bullhorn',c:'#1d4ed8',bg:'rgba(37,99,235,.14)'},
+  'وفاة':{label:'وفاة',icon:'fa-dove',c:'#475569',bg:'rgba(100,116,139,.18)'},
+  'بيع':{label:'بيع',icon:'fa-tag',c:'#047857',bg:'rgba(16,185,129,.16)'},
+  'شراء':{label:'شراء',icon:'fa-shopping-bag',c:'#0369a1',bg:'rgba(14,165,233,.16)'},
+  'ضياع':{label:'ضياع',icon:'fa-search',c:'#be185d',bg:'rgba(236,72,153,.15)'},
+  'اعانة':{label:'إعانة',icon:'fa-hands-helping',c:'#6d28d9',bg:'rgba(124,58,237,.15)'}
+};
+const $ = id => document.getElementById(id);
+let items = [], nextId = 1, filter = 'الكل', query = '', editingId = null, removeImg = false;
+
+/* ---------- Storage (safe) ---------- */
+function today(){
+  try { return new Date().toLocaleDateString('ar-DZ-u-nu-latn',{day:'numeric',month:'short',year:'numeric'}); }
+  catch { return new Date().toLocaleDateString(); }
+}
+function defaults(){
+  const d = today();
+  const mk = (id,category,title,desc,name,phone)=>({id,category,title,desc,name,phone,date:d,image:null,isExample:true});
+  return [
+    mk(1,'زواج','حفل زفاف محمد وعائشة','يشرفنا دعوتكم لحضور حفل زفاف ابننا محمد، يوم الجمعة القادم بقاعة الزهور.','أبو محمد','0501234567'),
+    mk(2,'اعلام','مسابقة ثقافية للشباب','تقيم جمعية الحي مسابقة ثقافية يوم الخميس القادم، وجوائز قيّمة للفائزين.','لجنة الحي','0559876543'),
+    mk(3,'وفاة','وفاة المرحوم عبد الله','انتقل إلى رحمة الله المرحوم عبد الله، ويُقام العزاء في منزل العائلة.','أسرة الفقيد','0561237890'),
+    mk(4,'بيع','سيارة للبيع - كامري 2020','حالة ممتازة وصيانة منتظمة، السعر مناسب للتواصل.','سعد','0509876543'),
+    mk(5,'ضياع','فقدان هاتف','فُقد هاتف أزرق قرب السوق القديم، من وجده يتواصل معنا.','خالد','0551237890')
+  ];
+}
+function load(){
+  try{
+    const s = localStorage.getItem('city_announcements');
+    if(s){ const p = JSON.parse(s); items = p.announcements || []; nextId = p.nextId || 1; return; }
+  }catch{}
+  items = defaults(); nextId = items.length + 1; save();
+}
+function save(){
+  try{ localStorage.setItem('city_announcements', JSON.stringify({announcements:items,nextId})); return true; }
+  catch{ toast('⚠️ المساحة ممتلئة، احذف بعض الصور'); return false; }
+}
+
+/* ---------- Helpers ---------- */
+const esc = t => { const d = document.createElement('div'); d.textContent = t ?? ''; return d.innerHTML; };
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600); }
+function waLink(phone){
+  let n = phone.replace(/\D/g,'');
+  if(n.startsWith('00')) n = n.slice(2);
+  else if(n.startsWith('0')) n = '213' + n.slice(1);
+  return 'https://wa.me/' + n;
+}
+function resizeImage(file,max=700,q=0.72){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, max/Math.max(img.width,img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        res(c.toDataURL('image/jpeg',q));
+      };
+      img.onerror = rej; img.src = e.target.result;
+    };
+    r.onerror = rej; r.readAsDataURL(file);
+  });
+}
+
+/* ---------- Render ---------- */
+function renderCats(){
+  const box = $('cats'); box.innerHTML = '';
+  const all = [['الكل',{label:'الكل',icon:'fa-th-large',c:'#0b5d46'}], ...Object.entries(CATS)];
+  all.forEach(([id,m])=>{
+    const b = document.createElement('button');
+    b.className = 'cat-btn' + (id===filter?' active':'');
+    b.style.setProperty('--c', m.c);
+    const n = id==='الكل' ? items.length : items.filter(a=>a.category===id).length;
+    b.innerHTML = `<i class="fas ${m.icon}"></i>${m.label} <small>${n}</small>`;
+    b.onclick = () => { filter = id; $('filterLabel').textContent = m.label; renderCats(); renderList(); };
+    box.appendChild(b);
+  });
+}
+function renderList(){
+  const q = query.trim().toLowerCase();
+  const rows = items.filter(a =>
+    (filter==='الكل' || a.category===filter) &&
+    (!q || (a.title+' '+a.desc+' '+a.name).toLowerCase().includes(q))
+  ).reverse();
+  const list = $('list');
+  $('totalCount').textContent = items.length;
+  if(!rows.length){
+    list.innerHTML = `<div class="empty"><i class="fas fa-inbox"></i><p>لا توجد بلاغات مطابقة</p><p style="font-size:13px;margin-top:6px">كن أول من ينشر هنا!</p></div>`;
+    return;
+  }
+  list.innerHTML = '';
+  rows.forEach((a,i)=>{
+    const m = CATS[a.category] || {label:a.category,icon:'fa-file',c:'#475569',bg:'rgba(100,116,139,.18)'};
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.style.cssText = `--c:${m.c};--cb:${m.bg};animation-delay:${Math.min(i,6)*.05}s`;
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="tag"><i class="fas ${m.icon}"></i>${m.label}</span>
+        ${a.isExample?'<span class="mini">مثال</span>':''}
+        ${a.isHelpRequest?'<span class="mini help"><i class="fas fa-hand-holding-heart"></i> طلب إعانة</span>':''}
+        <span class="date"><i class="far fa-calendar-alt"></i> ${esc(a.date||'اليوم')}</span>
+      </div>
+      <h3 class="card-title">${esc(a.title)}</h3>
+      ${a.image?`<div class="pic"><img src="${a.image}" alt="صورة البلاغ" loading="lazy" /></div>`:''}
+      <p class="card-desc">${esc(a.desc)}</p>
+      <div class="card-foot">
+        <span><i class="fas fa-user"></i> ${esc(a.name)}</span>
+        <a class="contact-btn call" href="tel:${esc(a.phone)}"><i class="fas fa-phone-alt"></i>${esc(a.phone)}</a>
+        <a class="contact-btn wa" href="${waLink(a.phone)}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>واتساب</a>
+        <div class="acts">
+          <button class="s" title="نسخ البلاغ" aria-label="نسخ"><i class="far fa-copy"></i></button>
+          <button class="e" title="تعديل" aria-label="تعديل"><i class="fas fa-edit"></i></button>
+          <button class="d" title="حذف" aria-label="حذف"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      </div>`;
+    const pic = card.querySelector('.pic');
+    if(pic) pic.onclick = () => { $('lbImg').src = a.image; $('lightbox').classList.add('open'); };
+    card.querySelector('.e').onclick = () => openEdit(a.id);
+    card.querySelector('.d').onclick = () => {
+      if(!confirm('هل أنت متأكد من حذف هذا البلاغ؟')) return;
+      items = items.filter(x=>x.id!==a.id); save(); renderCats(); renderList(); toast('تم حذف البلاغ');
+    };
+    card.querySelector('.s').onclick = async () => {
+      const txt = `${m.label} | ${a.title}\n${a.desc}\n${a.name} - ${a.phone}`;
+      try{ await navigator.clipboard.writeText(txt); toast('📋 تم نسخ البلاغ'); }
+      catch{ toast('تعذّر النسخ'); }
+    };
+    list.appendChild(card);
+  });
+}
+
+/* ---------- Add / edit modal ---------- */
+const overlay = $('overlay'), form = $('form'), fImg = $('fImg');
+function showPrev(src){ $('prevImg').src = src; $('prevBox').style.display = 'block'; }
+function hidePrev(){ $('prevBox').style.display = 'none'; $('prevImg').removeAttribute('src'); }
+function openModal(){
+  editingId = null; removeImg = false; form.reset(); hidePrev();
+  $('modalTitle').textContent = 'بلاغ جديد'; $('submitTxt').textContent = 'نشر البلاغ';
+  overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function openEdit(id){
+  const a = items.find(x=>x.id===id); if(!a) return;
+  editingId = id; removeImg = false; form.reset();
+  $('fCat').value = a.category; $('fTitle').value = a.title; $('fDesc').value = a.desc;
+  $('fName').value = a.name; $('fPhone').value = a.phone;
+  a.image ? showPrev(a.image) : hidePrev();
+  $('modalTitle').textContent = 'تعديل البلاغ'; $('submitTxt').textContent = 'تحديث البلاغ';
+  overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeModal(){ overlay.classList.remove('open'); document.body.style.overflow = ''; editingId = null; form.reset(); hidePrev(); }
+
+$('openBtn').onclick = openModal;
+$('closeBtn').onclick = closeModal;
+overlay.onclick = e => { if(e.target===overlay) closeModal(); };
+$('rmImg').onclick = () => { removeImg = true; fImg.value = ''; hidePrev(); };
+fImg.onchange = () => {
+  const f = fImg.files[0]; if(!f) return;
+  removeImg = false;
+  const r = new FileReader(); r.onload = e => showPrev(e.target.result); r.readAsDataURL(f);
+};
+
+form.onsubmit = async e => {
+  e.preventDefault();
+  const btn = $('submitBtn'); btn.disabled = true; const old = $('submitTxt').textContent; $('submitTxt').textContent = 'جاري المعالجة...';
+  const data = {
+    category:$('fCat').value, title:$('fTitle').value.trim(), desc:$('fDesc').value.trim(),
+    name:$('fName').value.trim(), phone:$('fPhone').value.trim()
+  };
+  let image = null;
+  const prev = editingId ? items.find(x=>x.id===editingId) : null;
+  if(prev && !removeImg) image = prev.image;
+  const file = fImg.files[0];
+  if(file){ try{ image = await resizeImage(file); }catch{ toast('تعذّرت معالجة الصورة'); } }
+
+  if(editingId){
+    items = items.map(x => x.id===editingId ? {...x,...data,image} : x);
+    toast('✅ تم تحديث البلاغ');
+  } else {
+    items.push({id:nextId++,...data,date:today(),image,isExample:false,isHelpRequest:false});
+    filter = 'الكل'; $('filterLabel').textContent = 'الكل'; toast('✅ تم نشر البلاغ');
+  }
+  save(); closeModal(); renderCats(); renderList();
+  btn.disabled = false; $('submitTxt').textContent = old;
+};
+
+/* ---------- Help modal ---------- */
+const hOverlay = $('helpOverlay');
+const closeHelp = () => { hOverlay.classList.remove('open'); document.body.style.overflow = ''; $('helpForm').reset(); };
+$('helpBtn').onclick = () => { hOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+$('closeHelp').onclick = closeHelp;
+hOverlay.onclick = e => { if(e.target===hOverlay) closeHelp(); };
+$('helpForm').onsubmit = e => {
+  e.preventDefault();
+  const type = $('hType').value, desc = $('hDesc').value.trim();
+  items.push({id:nextId++,category:'اعانة',title:`طلب إعانة (${type})`,desc:`${desc}\n\nنوع المساعدة: ${type}`,
+    name:$('hName').value.trim(),phone:$('hPhone').value.trim(),date:today(),image:null,isExample:false,isHelpRequest:true});
+  save(); closeHelp();
+  filter = 'اعانة'; $('filterLabel').textContent = 'إعانة'; renderCats(); renderList();
+  toast('✅ تم إرسال طلب الإعانة');
+};
+
+/* ---------- Search, lightbox, theme, ESC ---------- */
+$('searchInput').oninput = e => { query = e.target.value; renderList(); };
+$('lightbox').onclick = () => $('lightbox').classList.remove('open');
+document.addEventListener('keydown', e => {
+  if(e.key!=='Escape') return;
+  $('lightbox').classList.remove('open');
+  if(overlay.classList.contains('open')) closeModal();
+  if(hOverlay.classList.contains('open')) closeHelp();
+});
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  $('themeBtn').innerHTML = `<i class="fas ${t==='dark'?'fa-sun':'fa-moon'}"></i>`;
+  try{ localStorage.setItem('city_theme', t); }catch{}
+}
+$('themeBtn').onclick = () => setTheme(document.documentElement.dataset.theme==='dark' ? 'light' : 'dark');
+(function(){
+  let t = null;
+  try{ t = localStorage.getItem('city_theme'); }catch{}
+  setTheme(t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+})();
+
+load(); renderCats(); renderList();
+</script>
+</body>
+</html>
